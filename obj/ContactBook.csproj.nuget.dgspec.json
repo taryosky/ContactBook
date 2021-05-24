@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hp\\Documents\\GitHub\\week-9-taryosky\\week-9-taryosky.csproj": {}
+    "C:\\Users\\hp\\Documents\\GitHub\\week-9-taryosky\\ContactBook.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hp\\Documents\\GitHub\\week-9-taryosky\\week-9-taryosky.csproj": {
+    "C:\\Users\\hp\\Documents\\GitHub\\week-9-taryosky\\ContactBook.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hp\\Documents\\GitHub\\week-9-taryosky\\week-9-taryosky.csproj",
-        "projectName": "week-9-taryosky",
-        "projectPath": "C:\\Users\\hp\\Documents\\GitHub\\week-9-taryosky\\week-9-taryosky.csproj",
+        "projectUniqueName": "C:\\Users\\hp\\Documents\\GitHub\\week-9-taryosky\\ContactBook.csproj",
+        "projectName": "ContactBook",
+        "projectPath": "C:\\Users\\hp\\Documents\\GitHub\\week-9-taryosky\\ContactBook.csproj",
         "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\hp\\Documents\\GitHub\\week-9-taryosky\\obj\\",
         "projectStyle": "PackageReference",
@@ -24,15 +24,15 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net5.0"
+          "netcoreapp3.1"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net5.0": {
-            "targetAlias": "net5.0",
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -43,14 +43,8 @@
         }
       },
       "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
-          "dependencies": {
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[5.6.3, )"
-            }
-          },
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "imports": [
             "net461",
             "net462",

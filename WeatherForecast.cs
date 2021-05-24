@@ -1,6 +1,6 @@
 using System;
 
-namespace week_9_taryosky
+namespace ContactBook
 {
     public class WeatherForecast
     {
