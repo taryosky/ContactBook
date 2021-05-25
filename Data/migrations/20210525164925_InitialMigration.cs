@@ -179,18 +179,20 @@ namespace ContactBook.Data.migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "socialMediaHandles",
+                name: "Photos",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: false)
+                    ImageUrl = table.Column<string>(nullable: false),
+                    PublicKey = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_socialMediaHandles", x => x.Id);
+                    table.PrimaryKey("PK_Photos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_socialMediaHandles_AspNetUsers_UserId",
+                        name: "FK_Photos_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -200,7 +202,8 @@ namespace ContactBook.Data.migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_UserId",
                 table: "Addresses",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -240,9 +243,10 @@ namespace ContactBook.Data.migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_socialMediaHandles_UserId",
-                table: "socialMediaHandles",
-                column: "UserId");
+                name: "IX_Photos_UserId",
+                table: "Photos",
+                column: "UserId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -266,7 +270,7 @@ namespace ContactBook.Data.migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "socialMediaHandles");
+                name: "Photos");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

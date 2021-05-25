@@ -14,5 +14,9 @@ namespace ContactBook.Models
         [Required]
         [StringLength(25, MinimumLength = 3)]
         public string LastName { get; set; }
+
+        public Address Address { get; set; }
+
+        public Photo Photo { get; set; }
     }
 }

@@ -15,6 +15,6 @@ namespace ContactBook.Data
 
         public DbSet<Address> Addresses { get; set; }
 
-        public DbSet<SocialMediaHandle> socialMediaHandles { get; set; }
+        public DbSet<Photo> Photos { get; set; }
     }
 }

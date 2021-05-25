@@ -3,16 +3,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ContactBook.Models
 {
-    public class SocialMediaHandle
+    public class Photo
     {
-        [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string UserId { get; set; }
 
         [Required]
-        public string Url { get; set; }
+        public string ImageUrl { get; set; }
+
+        [Required]
+        public string PublicKey { get; set; }
 
         public User User { get; set; }
     }

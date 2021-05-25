@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContactBook.Data.migrations
 {
     [DbContext(typeof(ContactBookContext))]
-    [Migration("20210524213348_InitialMigration")]
+    [Migration("20210525164925_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,18 +48,23 @@ namespace ContactBook.Data.migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("ContactBook.Models.SocialMediaHandle", b =>
+            modelBuilder.Entity("ContactBook.Models.Photo", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Url")
+                    b.Property<string>("PublicKey")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -69,9 +74,10 @@ namespace ContactBook.Data.migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
-                    b.ToTable("socialMediaHandles");
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("ContactBook.Models.User", b =>
@@ -279,15 +285,15 @@ namespace ContactBook.Data.migrations
             modelBuilder.Entity("ContactBook.Models.Address", b =>
                 {
                     b.HasOne("ContactBook.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithOne("Address")
+                        .HasForeignKey("ContactBook.Models.Address", "UserId");
                 });
 
-            modelBuilder.Entity("ContactBook.Models.SocialMediaHandle", b =>
+            modelBuilder.Entity("ContactBook.Models.Photo", b =>
                 {
                     b.HasOne("ContactBook.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Photo")
+                        .HasForeignKey("ContactBook.Models.Photo", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
