@@ -5,12 +5,12 @@ using ContactBook.Data;
 using ContactBook.DTO;
 using ContactBook.Models;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,9 +44,11 @@ namespace ContactBook.Controllers
 
         [HttpGet]
         [Route("[controller]/All-users")]
+        [Authorize]
         public async Task<IActionResult> GetAlloUsers([FromQuery] int page)
         {
-            var result = _context.Users.Skip(page * 10).Take(10).Include(x => x.Address).ToList();
+            int numberToSkip = page == 1 ? 0 : page - 1 * 10;
+            var result = _context.Users.Skip(numberToSkip).Take(10).Include(x => x.Address).Where(x => x.Email != "taryosky@gmail.com").ToList();
             List<UserDetailsToReturnDTO> Users = new List<UserDetailsToReturnDTO>();
             foreach (var user in result)
             {
@@ -78,6 +80,7 @@ namespace ContactBook.Controllers
 
         [HttpGet]
         [Route("[controller]/{IdOrEmail}")]
+        [Authorize(Roles = "Admin Regular")]
         public async Task<IActionResult> GetUser([FromRoute] string IdOrEmail)
         {
             if (string.IsNullOrWhiteSpace(IdOrEmail)) return BadRequest();
@@ -121,11 +124,12 @@ namespace ContactBook.Controllers
 
         [HttpGet]
         [Route("[controller]/search")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<User>>> SearchUsers([FromQuery] string query)
         {
             if (string.IsNullOrWhiteSpace(query)) return BadRequest();
 
-            var usersFromdb = await _context.Users.Include(x => x.Address).Where(x => (x.FirstName.Contains(query) || x.LastName.Contains(query))).ToListAsync();
+            var usersFromdb = await _context.Users.Include(x => x.Address).Where(x => ((x.FirstName.Contains(query) || x.LastName.Contains(query))) && x.Email != "taryosky@gmail.com").ToListAsync();
             var usersToReturn = new List<UserDetailsToReturnDTO>();
             foreach (var u in usersFromdb)
             {
@@ -154,6 +158,7 @@ namespace ContactBook.Controllers
 
         [HttpPost]
         [Route("[controller]/add-new")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddUser([FromForm] RegistrationDetailsDTO model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -174,7 +179,10 @@ namespace ContactBook.Controllers
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded) return BadRequest();
-
+            if (result.Succeeded)
+            {
+                _userManager.AddToRoleAsync(user, RolesEnum.Admin.ToString()).Wait();
+            }
             Address address = new Address
             {
                 City = model.Address.City,
@@ -184,6 +192,7 @@ namespace ContactBook.Controllers
                 Street = model.Address.Street,
                 HouseNumber = model.Address.HouseNumber
             };
+
             _context.Addresses.Add(address);
             await _context.SaveChangesAsync();
 
@@ -192,6 +201,7 @@ namespace ContactBook.Controllers
 
         [HttpDelete]
         [Route("[controller]/delete/{Id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser([FromRoute] string Id)
         {
             if (string.IsNullOrWhiteSpace(Id))
@@ -217,6 +227,7 @@ namespace ContactBook.Controllers
 
         [HttpPut]
         [Route("[controller]/update/{Id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateUser([FromRoute] string Id, [FromForm] UserDetailsUpdateDTO model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -245,6 +256,7 @@ namespace ContactBook.Controllers
 
         [HttpPatch]
         [Route("[controller]/upload/{UserId}")]
+        [Authorize(Roles = "Regular")]
         public async Task<IActionResult> UploadPhoto([FromRoute] string UserId, [FromForm] FileToUploadDTO file)
         {
             if (string.IsNullOrWhiteSpace(UserId) || file == null) return BadRequest();

@@ -18,7 +18,7 @@ namespace ContactBook.Utilities
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetSection("JWTKey:JWTSecurityKey").Value)),
                     SecurityAlgorithms.HmacSha256Signature)

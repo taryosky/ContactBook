@@ -3,29 +3,53 @@
 using Microsoft.AspNetCore.Identity;
 
 using System;
-using System.Linq;
 
 namespace ContactBook.Data
 {
     public class DbInitializer
     {
-        public static void Seed(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, ContactBookContext context)
+        public static void SeedDB(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            context.Database.EnsureCreated();
-            if (context.Users.Any()) return;
-            if (context.Roles.Any()) return;
+            SeedRoles(roleManager);
+            SeedUsers(userManager);
+        }
 
-            User user = new User
+        private static void SeedUsers(UserManager<User> userManager)
+        {
+            if (userManager.FindByEmailAsync("taryosky@gmail.com").Result == null)
             {
-                FirstName = "Clement",
-                LastName = "Azibataram",
-                Email = "taryosky@gmail.com",
-                PhoneNumber = "09088776543"
-            };
+                User user = new User();
+                user.UserName = "taryosky@gmail.com";
+                user.Email = "taryosky@gmail.com";
+                user.FirstName = "Clement";
+                user.LastName = "Azibataram";
 
-            roleManager.CreateAsync(new IdentityRole(RolesEnum.Admin.ToString()));
-            roleManager.CreateAsync(new IdentityRole(RolesEnum.Admin.ToString()));
-            userManager.CreateAsync(user, "Azibataram@2452");
+                IdentityResult result = userManager.CreateAsync(user, "Azibataram@2452").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, RolesEnum.Admin.ToString()).Wait();
+                }
+            }
+        }
+
+        private static void SeedRoles(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExistsAsync(RolesEnum.Regular.ToString()).Result)
+            {
+                IdentityRole role = new IdentityRole();
+                role.Name = RolesEnum.Regular.ToString();
+                IdentityResult roleResult = roleManager.
+                CreateAsync(role).Result;
+            }
+
+            if (!roleManager.RoleExistsAsync(RolesEnum.Admin.ToString()).Result)
+            {
+                IdentityRole role = new IdentityRole();
+                role.Name = RolesEnum.Admin.ToString();
+                IdentityResult roleResult = roleManager.
+                CreateAsync(role).Result;
+            }
         }
     }
 }

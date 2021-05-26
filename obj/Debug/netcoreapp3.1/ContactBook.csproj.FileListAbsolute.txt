@@ -55,7 +55,6 @@ C:\Users\hp\Documents\GitHub\week-9-taryosky\bin\Debug\netcoreapp3.1\runtimes\wi
 C:\Users\hp\Documents\GitHub\week-9-taryosky\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\hp\Documents\GitHub\week-9-taryosky\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\hp\Documents\GitHub\week-9-taryosky\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
-C:\Users\hp\Documents\GitHub\week-9-taryosky\obj\Debug\netcoreapp3.1\ContactBook.csprojAssemblyReference.cache
 C:\Users\hp\Documents\GitHub\week-9-taryosky\obj\Debug\netcoreapp3.1\ContactBook.AssemblyInfoInputs.cache
 C:\Users\hp\Documents\GitHub\week-9-taryosky\obj\Debug\netcoreapp3.1\ContactBook.AssemblyInfo.cs
 C:\Users\hp\Documents\GitHub\week-9-taryosky\obj\Debug\netcoreapp3.1\ContactBook.csproj.CoreCompileInputs.cache
