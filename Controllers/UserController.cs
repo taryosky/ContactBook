@@ -84,6 +84,7 @@ namespace ContactBook.Controllers
         public async Task<IActionResult> GetUser([FromRoute] string IdOrEmail)
         {
             if (string.IsNullOrWhiteSpace(IdOrEmail)) return BadRequest();
+
             var IdEmail = IdOrEmail;
 
             IQueryable<User> Users = _context.Users.Include(x => x.Address);
